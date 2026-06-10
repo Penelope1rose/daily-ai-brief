@@ -161,6 +161,7 @@ def render(summary: dict, weather: dict, output_path: str = "docs/index.html") -
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ray's Daily AI Brief — {_esc(date_str)}</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 <style>{STYLES}</style>
 </head>
 <body>
