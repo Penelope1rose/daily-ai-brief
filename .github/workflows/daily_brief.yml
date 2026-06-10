@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write  # needed to commit docs/index.html back to repo
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   generate:
     runs-on: ubuntu-latest
