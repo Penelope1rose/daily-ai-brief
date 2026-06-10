@@ -10,7 +10,7 @@ import argparse
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from fetchers import hn_news, reddit, arxiv_papers, github_trending, devto, weather, rss_news
+from fetchers import hn_news, arxiv_papers, github_trending, devto, weather, rss_news
 from summarizer import summarize
 from renderer import render
 
@@ -22,7 +22,6 @@ def fetch_all() -> tuple[list[dict], dict]:
 
     tasks = {
         "hn":      lambda: hn_news.fetch(max_items=20),
-        "reddit":  lambda: reddit.fetch(max_per_sub=5),
         "arxiv":   lambda: arxiv_papers.fetch(max_items=10),
         "github":  lambda: github_trending.fetch(max_items=8),
         "devto":   lambda: devto.fetch(max_items=10),
@@ -30,7 +29,7 @@ def fetch_all() -> tuple[list[dict], dict]:
         "weather": lambda: weather.fetch(),
     }
 
-    with ThreadPoolExecutor(max_workers=7) as pool:
+    with ThreadPoolExecutor(max_workers=6) as pool:
         futures = {pool.submit(fn): name for name, fn in tasks.items()}
         for future in as_completed(futures):
             name = futures[future]

@@ -41,14 +41,23 @@ FEEDS = [
     },
 ]
 
+# Generic headers for most feeds
 HEADERS = {"User-Agent": "DailyAIBrief/1.0 (personal dashboard)"}
+
+# Medium blocks generic UAs — use a browser-like one for their feeds
+HEADERS_MEDIUM = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "application/rss+xml, application/xml, text/xml, */*",
+}
+
 CUTOFF_DAYS = 3
 
 
 def _parse_feed(feed: dict, cutoff: datetime) -> list[dict]:
     items = []
     try:
-        resp = requests.get(feed["url"], headers=HEADERS, timeout=12)
+        headers = HEADERS_MEDIUM if "Medium" in feed["name"] else HEADERS
+        resp = requests.get(feed["url"], headers=headers, timeout=12)
         resp.raise_for_status()
         root = ET.fromstring(resp.content)
 

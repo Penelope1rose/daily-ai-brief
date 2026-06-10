@@ -54,6 +54,17 @@ RAW DATA:
 """
 
 
+# Models tried in order — falls back if quota is hit on primary.
+# Ordered by RPD limit (highest first). gemini-2.0-flash has 0 quota on free tier.
+MODELS = [
+    "gemini-3.1-flash-lite",   # 500 RPD free tier — primary
+    "gemini-2.5-flash",        # 20 RPD free tier
+    "gemini-2.5-flash-lite",   # 20 RPD free tier
+    "gemini-3.5-flash",        # 20 RPD free tier
+    "gemini-3.0-flash",        # 20 RPD free tier
+]
+
+
 def summarize(all_items: list[dict]) -> dict:
     """Send all fetched items to Gemini and return structured categories."""
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -68,15 +79,25 @@ def summarize(all_items: list[dict]) -> dict:
 
     prompt = PROMPT_TEMPLATE.replace("{data}", data_str)
 
-    print(f"[summarizer] sending {len(trimmed)} items to Gemini 2.0 Flash...")
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            temperature=0.3,
-            max_output_tokens=4096,
-        ),
-    )
+    last_error = None
+    for model in MODELS:
+        try:
+            print(f"[summarizer] trying {model} with {len(trimmed)} items...")
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.3,
+                    max_output_tokens=4096,
+                ),
+            )
+            raw = response.text.strip()
+            break  # success
+        except Exception as e:
+            print(f"[summarizer] {model} failed: {e}")
+            last_error = e
+    else:
+        raise RuntimeError(f"All Gemini models failed. Last error: {last_error}")
 
     raw = response.text.strip()
 
