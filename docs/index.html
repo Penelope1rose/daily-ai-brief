@@ -2,17 +2,341 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ray's Daily AI Brief</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ray's Daily AI Brief — Wednesday, 10 June 2026</title>
 <style>
-  body { font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f0f2f5; }
-  .msg { text-align: center; color: #888; }
-  h2 { color: #302b63; margin-bottom: 8px; }
+:root { color-scheme: light; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  padding: 16px;
+}
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 22px; margin-bottom: 16px;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  border-radius: 14px; color: white;
+}
+.header h1 { font-size: 1.25rem; font-weight: 800; }
+.header .sub { font-size: 0.73rem; opacity: 0.55; margin-top: 3px; }
+.header .meta { text-align: right; font-size: 0.78rem; opacity: 0.75; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-full { grid-column: 1 / -1; }
+.card { background: white; border-radius: 12px; padding: 16px; border: 1px solid #e4e8ef; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 13px; padding-bottom: 11px; border-bottom: 1px solid #f2f4f7; }
+.card-title { font-size: 0.72rem; font-weight: 800; color: #444; text-transform: uppercase; letter-spacing: 0.8px; }
+.card-badge { margin-left: auto; font-size: 0.62rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+.badge-blue { background: #e8f0fe; color: #1a56db; }
+.badge-green { background: #dcfce7; color: #15803d; }
+.badge-orange { background: #fff7ed; color: #c2410c; }
+.badge-purple { background: #f3e8ff; color: #7c3aed; }
+.badge-indigo { background: #eef2ff; color: #4338ca; }
+.item { margin-bottom: 11px; padding-bottom: 11px; border-bottom: 1px solid #f5f5f7; }
+.item:last-child { border: none; margin: 0; padding: 0; }
+.item-title { font-weight: 700; font-size: 0.82rem; margin-bottom: 3px; line-height: 1.3; }
+.item-title a { color: #1a1a2e; text-decoration: none; }
+.item-title a:hover { color: #302b63; text-decoration: underline; }
+.item-desc { font-size: 0.77rem; color: #666; line-height: 1.55; }
+.item-chip { display: inline-block; font-size: 0.62rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-top: 4px; background: #f0f4ff; color: #3949ab; }
+.stack-section { margin-bottom: 12px; }
+.stack-section:last-child { margin-bottom: 0; }
+.stack-label { font-size: 0.67rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 6px; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.pill { font-size: 0.73rem; font-weight: 500; padding: 3px 11px; border-radius: 20px; border: 1px solid; }
+.pill-default { background: #f8f9ff; color: #3949ab; border-color: #c5cae9; }
+.pill-hot { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+.pill-free { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.weather-widget { border-radius: 12px; background: linear-gradient(160deg, #1a1a5e 0%, #1565c0 50%, #0288d1 100%); color: white; padding: 16px; }
+.weather-location { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 4px; }
+.weather-main-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.weather-temp-big { font-size: 2.8rem; font-weight: 800; line-height: 1; letter-spacing: -2px; }
+.weather-temp-big sup { font-size: 1.2rem; font-weight: 400; vertical-align: super; letter-spacing: 0; }
+.weather-condition { font-size: 0.82rem; opacity: 0.85; margin-top: 4px; }
+.weather-icon-big { font-size: 3.2rem; line-height: 1; }
+.weather-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.weather-stat { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 8px; text-align: center; }
+.weather-stat-label { font-size: 0.62rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.weather-stat-val { font-size: 0.85rem; font-weight: 700; }
+.weather-forecast-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+.forecast-item { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 7px 6px; text-align: center; }
+.forecast-period { font-size: 0.6rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.forecast-icon { font-size: 1.2rem; margin-bottom: 3px; }
+.forecast-temp { font-size: 0.78rem; font-weight: 700; }
+.forecast-desc { font-size: 0.62rem; opacity: 0.75; margin-top: 2px; line-height: 1.3; }
+.weather-note-small { font-size: 0.62rem; opacity: 0.5; margin-top: 8px; text-align: center; }
+.stack-para { font-size: 0.82rem; color: #555; line-height: 1.65; }
+.link-row { display: flex; align-items: center; padding: 7px 0; border-bottom: 1px solid #f5f5f7; gap: 10px; }
+.link-row:last-child { border: none; }
+.link-dot { width: 6px; height: 6px; border-radius: 50%; background: #c5cae9; flex-shrink: 0; }
+.link-row a { font-size: 0.8rem; font-weight: 600; color: #302b63; text-decoration: none; }
+.link-row a:hover { text-decoration: underline; }
+.link-sub { font-size: 0.71rem; color: #aaa; margin-left: auto; }
+.footer { text-align: center; font-size: 0.7rem; color: #bbb; margin-top: 14px; }
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .grid-full { grid-column: 1; }
+}
 </style>
 </head>
 <body>
-<div class="msg">
-  <h2>🤖 Ray's Daily AI Brief</h2>
-  <p>Waiting for first run — trigger the GitHub Action to generate your dashboard.</p>
+
+<div class="header">
+  <div>
+    <h1>🤖 Ray's Daily AI Brief</h1>
+    <div class="sub">Singapore · AI Engineer · Auto-updated daily at 8 AM SGT</div>
+  </div>
+  <div class="meta">Wednesday, 10 June 2026<br>18:25 SGT</div>
 </div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <span>📰</span>
+      <span class="card-title">AI News & Releases</span>
+      <span class="card-badge badge-blue">THIS WEEK</span>
+    </div>
+    
+        <div class="item">
+          <div class="item-title"><a href="https://www.theverge.com/news/946725/anthropic-releases-claude-fable-5-mythos" target="_blank" rel="noopener">Anthropic releases Claude Fable 5</a></div>
+          <div class="item-desc">New Mythos-class model featuring enhanced performance in software engineering and vision tasks. Positioned as the most powerful model currently available for complex knowledge work.</div>
+          <span class="item-chip">Model Release</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.11182v1" target="_blank" rel="noopener">EEVEE: Test-time Prompt Learning for Agents</a></div>
+          <div class="item-desc">A new framework enabling LLM agents to perform test-time prompt learning across heterogeneous real-world task streams. Addresses the limitation of existing methods restricted to single-dataset environments.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.11169v1" target="_blank" rel="noopener">Piper: Programmable Distributed Training</a></div>
+          <div class="item-desc">A system designed to automate the composition of parallelism strategies (data, pipeline, expert) and memory optimizations like ZeRO. Reduces reliance on manual expert tuning for foundation model pretraining.</div>
+          <span class="item-chip">Research</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.11167v1" target="_blank" rel="noopener">Multi-Faceted Interactivity Alignment</a></div>
+          <div class="item-desc">New training approach for full-duplex speech models that optimizes interaction-level behavior rather than just token-level likelihood. Improves natural conversational flow in real-time dialogue systems.</div>
+          <span class="item-chip">Research</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.11172v1" target="_blank" rel="noopener">Predicting Future Behaviors in Reasoning Models</a></div>
+          <div class="item-desc">Proposes a method to steer Large Reasoning Models (LRMs) by predicting future behaviors rather than intervening on static hidden representations. Mitigates the quality degradation typically associated with test-time steering.</div>
+          <span class="item-chip">Research</span>
+        </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>🛠️</span>
+      <span class="card-title">Tools to Try</span>
+      <span class="card-badge badge-green">FREE TIER</span>
+    </div>
+    
+        <div class="item">
+          <div class="item-title"><a href="https://github.com/langgenius/dify" target="_blank" rel="noopener">Dify</a></div>
+          <div class="item-desc">Production-ready platform for orchestrating agentic workflows and RAG pipelines. Excellent for rapid prototyping and deploying LLM apps with built-in evaluation tools.</div>
+          <span class="item-chip">Tool</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://github.com/open-webui/open-webui" target="_blank" rel="noopener">Open WebUI</a></div>
+          <div class="item-desc">A feature-rich, extensible interface for local LLMs via Ollama or remote APIs. Ideal for solo devs needing a self-hosted, private chat and management environment.</div>
+          <span class="item-chip">Open Source</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://github.com/devenjarvis/lathe" target="_blank" rel="noopener">Lathe</a></div>
+          <div class="item-desc">A tool designed to help developers learn new domains through LLM-guided exploration rather than just generating code. Focuses on deep understanding of technical concepts.</div>
+          <span class="item-chip">Tool</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener">ECC (Agent Harness)</a></div>
+          <div class="item-desc">A performance optimization system for agent harnesses. Provides infrastructure for memory, security, and research-first development for tools like Cursor and Claude Code.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://github.com/shareAI-lab/learn-claude-code" target="_blank" rel="noopener">Learn-Claude-Code</a></div>
+          <div class="item-desc">A &#x27;nano&#x27; agent harness implementation built from scratch. Useful for understanding the internals of how agentic coding assistants function at the bash/CLI level.</div>
+          <span class="item-chip">Open Source</span>
+        </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>💡</span>
+      <span class="card-title">AI Use Cases & Projects</span>
+      <span class="card-badge badge-orange">TRENDING</span>
+    </div>
+    
+        <div class="item">
+          <div class="item-title"><a href="https://dev.to/jamesli/from-60-to-93-how-we-built-a-continuous-evaluation-framework-for-llm-systems-i4" target="_blank" rel="noopener">Continuous Evaluation for LLM Systems</a></div>
+          <div class="item-desc">A practical guide on building a CI/CD pipeline for LLM apps, moving from 60% to 93% accuracy through systematic evaluation. Essential reading for production-grade RAG deployment.</div>
+          <span class="item-chip">RAG</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://dev.to/sysoft/doubling-qwen36-27b-on-one-rtx-3090-ollama-llamacpp-mtp-lever-by-lever-357-802-toks-4i8" target="_blank" rel="noopener">Optimizing Local LLM Inference</a></div>
+          <div class="item-desc">Techniques for running Qwen3.6-27B on consumer hardware (RTX 3090) using Ollama and llama.cpp backends. Achieves 35-75 tok/s through specific hardware-level tuning.</div>
+          <span class="item-chip">Tool</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://dev.to/akdevcraft/telegram-integration-0-personal-agentic-ai-assistant-part-5-4m2n" target="_blank" rel="noopener">Agentic Telegram Assistant</a></div>
+          <div class="item-desc">A series on building a $0 personal agentic assistant integrated with Telegram. Demonstrates practical agent orchestration and API integration for personal productivity.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.11176v1" target="_blank" rel="noopener">Data Journalist Agent</a></div>
+          <div class="item-desc">Research on automating the transformation of raw data into verifiable multimodal stories. Explores the intersection of data analysis and generative storytelling.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://www.theverge.com/ai-artificial-intelligence/942909/let-us-filter-ai-slop-google-youtube-meta-instagram-tiktok" target="_blank" rel="noopener">Filtering AI Slop</a></div>
+          <div class="item-desc">Community discussion on the necessity of filtering AI-generated content across platforms. Highlights the growing technical challenge of identifying and mitigating low-quality automated output.</div>
+          <span class="item-chip">Automation</span>
+        </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>📚</span>
+      <span class="card-title">Learning & Certifications</span>
+      <span class="card-badge badge-purple">POPULAR</span>
+    </div>
+    
+        <div class="item">
+          <div class="item-title"><a href="https://www.coursera.org/specializations/ai-engineering" target="_blank" rel="noopener">DeepLearning.AI - AI Engineering Specialization</a></div>
+          <div class="item-desc">Comprehensive coverage of building LLM-powered applications, RAG, and agentic workflows. Coursera-based, requires subscription.</div>
+          <span class="item-chip">Cert</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://docs.llamaindex.ai/en/stable/getting_started/starter_tutorial/" target="_blank" rel="noopener">LlamaIndex RAG Tutorials</a></div>
+          <div class="item-desc">In-depth technical tutorials on advanced RAG techniques, including hybrid search and agentic retrieval. Free, provided by LlamaIndex.</div>
+          <span class="item-chip">RAG</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://academy.langchain.com/" target="_blank" rel="noopener">LangChain Academy</a></div>
+          <div class="item-desc">Hands-on courses for building complex agentic systems and chains. Free, provided by LangChain.</div>
+          <span class="item-chip">Framework</span>
+        </div>
+  </div>
+
+  <div class="card grid-full">
+    <div class="card-header">
+      <span>⚡</span>
+      <span class="card-title">Stack Highlights · Solo Devs & AI Engineers</span>
+      <span class="card-badge badge-green">INDIE FRIENDLY</span>
+    </div>
+    <p class="stack-para">The current solo-dev stack is shifting toward local-first inference using Ollama and llama.cpp, paired with lightweight vector stores like Qdrant or ChromaDB for RAG. For orchestration, Dify and LangChain remain the standard for managing agentic workflows and evaluation pipelines. Hosting is increasingly optimized via self-managed VPS or specialized GPU clouds to bypass high API costs, while automation is handled by custom agent harnesses that prioritize observability and test-time evaluation.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>🔬</span>
+      <span class="card-title">Domain Deep-Dive · RAG & Agents</span>
+      <span class="card-badge badge-indigo">YOUR STACK</span>
+    </div>
+    
+        <div class="item">
+          <div class="item-title"><a href="https://dev.to/tuomo_pisama/a-field-guide-to-multi-agent-failure-modes-59on" target="_blank" rel="noopener">Multi-Agent Failure Modes</a></div>
+          <div class="item-desc">Analysis of common failure patterns in multi-agent systems, such as loop instability and hallucination propagation. Provides a framework for post-mortem analysis.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://dev.to/tuomo_pisama/do-you-actually-need-a-multi-agent-system-3a3j" target="_blank" rel="noopener">Do You Actually Need a Multi-Agent System?</a></div>
+          <div class="item-desc">Critical evaluation of agentic complexity, noting that multi-agent systems often exhibit high failure rates (41-87%). Advocates for simpler, robust single-agent architectures where possible.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+
+        <div class="item">
+          <div class="item-title"><a href="https://arxiv.org/abs/2606.01444" target="_blank" rel="noopener">Categorical Framework for Agentic AI</a></div>
+          <div class="item-desc">Theoretical exploration of agentic AI using categorical frameworks to define structure and behavior. Useful for formalizing agent design beyond heuristic-based approaches.</div>
+          <span class="item-chip">Agent</span>
+        </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>🌤️</span>
+      <span class="card-title">Weather · Singapore</span>
+    </div>
+    
+    <div class="weather-widget">
+      <div class="weather-location">📍 Singapore &nbsp;·&nbsp; <span style="font-size:0.65rem;opacity:0.6">🟢 Live</span></div>
+      <div class="weather-main-row">
+        <div>
+          <div class="weather-temp-big">31<sup>°C</sup></div>
+          <div class="weather-condition">Partly cloudy</div>
+          <div style="font-size:0.72rem;opacity:0.65;margin-top:2px">Feels like 39°C</div>
+        </div>
+        <div class="weather-icon-big">⛅</div>
+      </div>
+      <div class="weather-stats">
+        <div class="weather-stat"><div class="weather-stat-label">Humidity</div><div class="weather-stat-val">63%</div></div>
+        <div class="weather-stat"><div class="weather-stat-label">Wind</div><div class="weather-stat-val">13 km/h</div></div>
+        <div class="weather-stat"><div class="weather-stat-label">UV Index</div><div class="weather-stat-val">Low</div></div>
+      </div>
+      <div class="weather-forecast-row">
+        <div class="forecast-item">
+          <div class="forecast-period">Morning</div>
+          <div class="forecast-icon">⛅</div>
+          <div class="forecast-temp">28°C</div>
+          <div class="forecast-desc">Partly Cloudy </div>
+        </div>
+        <div class="forecast-item">
+          <div class="forecast-period">Afternoon</div>
+          <div class="forecast-icon">☀️</div>
+          <div class="forecast-temp">29°C</div>
+          <div class="forecast-desc">Sunny</div>
+        </div>
+        <div class="forecast-item">
+          <div class="forecast-period">Evening</div>
+          <div class="forecast-icon">🌧️</div>
+          <div class="forecast-temp">29°C</div>
+          <div class="forecast-desc">Patchy rain nearby</div>
+        </div></div>
+      <div class="weather-note-small"><a href="https://www.weather.gov.sg" target="_blank" style="color:rgba(255,255,255,0.45)">weather.gov.sg</a> for official forecast</div>
+    </div>
+  </div>
+
+  <div class="card grid-full">
+    <div class="card-header">
+      <span>🔗</span>
+      <span class="card-title">Quick Links</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 20px">
+      <div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://news.ycombinator.com" target="_blank">Hacker News</a><span class="link-sub">Tech & AI discussions</span></div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://huggingface.co/papers" target="_blank">HuggingFace Papers</a><span class="link-sub">Daily ML papers</span></div>
+      </div>
+      <div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://github.com/trending?l=python" target="_blank">GitHub Trending (Python)</a><span class="link-sub">Hottest repos</span></div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://paperswithcode.com" target="_blank">Papers With Code</a><span class="link-sub">Research + code</span></div>
+      </div>
+      <div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://www.reddit.com/r/LocalLLaMA/" target="_blank">r/LocalLLaMA</a><span class="link-sub">Open-source LLM community</span></div>
+        <div class="link-row"><div class="link-dot"></div><a href="https://www.deeplearning.ai" target="_blank">DeepLearning.AI</a><span class="link-sub">Short courses, free</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Generated by <strong>daily-ai-brief</strong> · Sources: HackerNews · Reddit · ArXiv · GitHub · DEV.to · wttr.in · Gemini 2.0 Flash
+</div>
+
 </body>
 </html>
